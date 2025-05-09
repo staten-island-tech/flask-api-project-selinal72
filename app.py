@@ -7,30 +7,30 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     # We ask the Pokémon API for the first 150 Pokémon.
-    response = requests.get("https://pokeapi.co/api/v2/pokemon?limit=150")
+    response = requests.get("https://api.thecatapi.com/v1/images/search?limit=10")
     data = response.json()
-    pokemon_list = data['results']
+    cats_list = data['results']
     
     # We create a list to store details for each Pokémon.
-    pokemons = []
+    cats = []
     
-    for pokemon in pokemon_list:
+    for cat in cats_list:
         # Each Pokémon has a URL like "https://pokeapi.co/api/v2/pokemon/1/"
-        url = pokemon['url']
+        url = cat['url']
         parts = url.strip("/").split("/")
         id = parts[-1]  # The last part of the URL is the Pokémon's ID
         
         # We use the ID to build an image URL.
         image_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png"
         
-        pokemons.append({
-            'name': pokemon['name'].capitalize(),
+        cats.append({
+            'name': cat['name'].capitalize(),
             'id': id,
-            'image': image_url
+            'image': cat['url']
         })
     
     # We tell Flask to show the 'index.html' page and pass the list of Pokémon.
-    return render_template("index.html", pokemons=pokemons)
+    return render_template("index.html", cats=cats)
 
 # Route for the Pokémon details page
 @app.route("/pokemon/<int:id>")
