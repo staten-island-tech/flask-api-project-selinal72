@@ -6,31 +6,42 @@ app = Flask(__name__)
 # Route for the home page
 @app.route("/")
 def index():
-    # We ask the Pokémon API for the first 150 Pokémon.
-    response = requests.get("https://api.thecatapi.com/v1/images/search?limit=10")
-    data = response.json()
-    cats_list = data['results']
+    headers = {
+        "X-API-KEY": "YOUR_API_KEY",
+        "Accept-Version": "1.0.0"
+    }
+
+    # We ask the Pokémon API for the first 150 Pokémon. (Ask nookipedia api for villager info)
+    response = requests.get("https://api.nookipedia.com/villagers", headers=headers)
+    villagers_list = response.json()
     
     # We create a list to store details for each Pokémon.
-    cats = []
+    villagers = []
     
-    for cat in cats_list:
-        # Each Pokémon has a URL like "https://pokeapi.co/api/v2/pokemon/1/"
-        url = cat['url']
+    for villager in villagers_list:
+        villagers.append({
+            'name': villager['name'],
+            'id': villager['id'],
+            'image': villager['image_url'],
+            'species': villager['species'],
+        })
+        
+        """ # Each Pokémon has a URL like "https://pokeapi.co/api/v2/pokemon/1/"
+        url = villager['url']
         parts = url.strip("/").split("/")
         id = parts[-1]  # The last part of the URL is the Pokémon's ID
         
         # We use the ID to build an image URL.
         image_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png"
         
-        cats.append({
-            'name': cat['name'].capitalize(),
+        villagers.append({
+            'name': villager['name'].capitalize(),
             'id': id,
-            'image': cat['url']
-        })
+            'image': villager['url']
+        }) """
     
     # We tell Flask to show the 'index.html' page and pass the list of Pokémon.
-    return render_template("index.html", cats=cats)
+    return render_template("index.html", villagers=villagers)
 
 # Route for the Pokémon details page
 @app.route("/pokemon/<int:id>")
