@@ -6,14 +6,14 @@ app = Flask(__name__)
 # Route for the home page
 @app.route("/")
 def index():
-    headers = {
+    """ headers = {
         "X-API-KEY": "YOUR_API_KEY",
         "Accept-Version": "1.0.0"
-    }
+    } """
 
     # We ask the Pokémon API for the first 150 Pokémon. (Ask nookipedia api for villager info)
-    response = requests.get("https://api.nookipedia.com/villagers", headers=headers)
-    villagers_list = response.json()
+    response = requests.get("https://ghibliapi.vercel.app/species", headers=headers)
+    """ villagers_list = response.json() """
     
     # We create a list to store details for each Pokémon.
     villagers = []
