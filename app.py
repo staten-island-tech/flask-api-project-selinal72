@@ -6,24 +6,28 @@ app = Flask(__name__)
 # Route for the home page
 @app.route("/")
 def index():
-    """ headers = {
-        "X-API-KEY": "YOUR_API_KEY",
-        "Accept-Version": "1.0.0"
-    } """
+    
 
-    # We ask the Pokémon API for the first 150 Pokémon. (Ask nookipedia api for villager info)
-    response = requests.get("https://ghibliapi.vercel.app/species", headers=headers)
-    """ villagers_list = response.json() """
+    # get species data from ghibli api
+    response = requests.get("https://ghibliapi.vercel.app/species")
+
+    species_list = response.json()
     
-    # We create a list to store details for each Pokémon.
-    villagers = []
-    
-    for villager in villagers_list:
-        villagers.append({
-            'name': villager['name'],
-            'id': villager['id'],
-            'image': villager['image_url'],
-            'species': villager['species'],
+    # We create a list to store details for each species.
+    species_data = []
+    for species in species_list:
+        # try to get this data
+        try:
+            name = species['name']
+            classification = species['classification']
+            eye_colors = species['eye_colors']
+            hair_colors = species['hair_colors']
+        # if no data found set as unknown
+        except KeyError:
+            classification = 'Unknown'
+            'classification': 'Unknown'
+        species_data.append({
+            'name': species['name'],
         })
         
         """ # Each Pokémon has a URL like "https://pokeapi.co/api/v2/pokemon/1/"
