@@ -39,13 +39,15 @@ def index():
             }) """
         
         url = person['url']
+        parts = url.strip("/").split("/")
+        id = parts[-1]  # The last part is the Pokémon's ID
         
         """ # We use the ID to build an image URL.
         image_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png" """
         
         people.append({
             'name': person['name'].capitalize(),
-            'url': url
+            'id': id
         })
     
     # We tell Flask to show the 'index.html' page and pass the list of Pokémon.
@@ -55,31 +57,11 @@ def index():
 @app.route("/person/<id>")
 def person_detail(id):
     # We get detailed info for a specific Pokémon using its id.
-    response = requests.get(f"{url}")
+    response = requests.get(f"https://ghibliapi.vercel.app/people/{id}")
     data = response.json()
     
-    # We extract extra details like types, height, weight, and stats.
-    types = [t['type']['name'] for t in data['types']]
-    height = data.get('height')
-    weight = data.get('weight')
-    name = data.get('name').capitalize()
-    image_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png"
-    
-    # Get the Pokémon’s base stats (like hp, attack, defense, etc.)
-    stat_names = [stat['stat']['name'] for stat in data['stats']]
-    stat_values = [stat['base_stat'] for stat in data['stats']]
-    
     # We tell Flask to show the 'pokemon.html' page with all these details.
-    return render_template("pokemon.html", pokemon={
-        'name': name,
-        'id': id,
-        'image': image_url,
-        'types': types,
-        'height': height,
-        'weight': weight,
-        'stat_names': stat_names,
-        'stat_values': stat_values
-    })
+    return render_template("person.html", data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)
