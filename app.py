@@ -3,19 +3,34 @@ import requests
 
 app = Flask(__name__)
 
+""" API_KEY = '94692e6f-677f-4348-85fe-637ae013248' """
+
 # Route for the home page
 @app.route("/")
 def index():
-    
-
-    # get species data from ghibli api
-    response = requests.get("https://ghibliapi.vercel.app/people")
-    people_list = response.json()
+    url = "https://api.nookipedia.com/villagers"
+    key = '94692e6f-677f-4348-85fe-637ae013248'
+    headers = {
+        "X-API-KEY": '94692e6f-677f-4348-85fe-637ae013248',
+        "Accept-Version": "1.7.0"
+    }
+    response = requests.get(url)
+    print
+    """ try:
+        # get species data from nookipedia api
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        villager_list = response.json()
+        print(villager_list)
+    except requests.exceptions.HTTPError as e:
+        print(f"http error: {e.response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"network error: {e}") """
     
     # We create a list to store details for each species.
-    people = []
+    villagers = []
 
-    for person in people_list:
+    for villager in villager_list:
         """ # try to get this data
         try:
             name = person['name']
@@ -38,26 +53,26 @@ def index():
                 'hair_color': hair_color
             }) """
         
-        url = person['url']
+        url = villager['url']
         parts = url.strip("/").split("/")
-        id = parts[-1]  # The last part is the Pokémon's ID
+        id = parts[-1]  # The last part is the villager's ID
         
-        """ # We use the ID to build an image URL.
-        image_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png" """
+        # We use the ID to build an image URL.
+        image_url = villager['image_url']
         
-        people.append({
-            'name': person['name'].capitalize(),
-            'id': id
+        villagers.append({
+            'name': villager['name'].capitalize(),
+            'id': id,
+            'image': image_url
         })
     
     # We tell Flask to show the 'index.html' page and pass the list of Pokémon.
-    return render_template("index.html", people=people)
-
+    return render_template("index.html", villagers=villagers)
 # Route for the Pokémon details page
 @app.route("/person/<id>")
-def person_detail(id):
+def villager_detail(id):
     # We get detailed info for a specific Pokémon using its id.
-    response = requests.get(f"https://ghibliapi.vercel.app/people/{id}")
+    response = requests.get(f"https://api.nookipedia.com/villagers/{id}")
     data = response.json()
     
     # We tell Flask to show the 'pokemon.html' page with all these details.
