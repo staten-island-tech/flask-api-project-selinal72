@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ villager.name }}'s Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>{{ villager.name }}'s Details</h1>
+      <div class="villager-detail">
+        <p><strong>Species:</strong> {{ villager.species }}</p>
+        <p><strong>Personality:</strong> {{ villager.personality }}</p>
+        <p><strong>Gender:</strong> {{ villager.gender }}</p>
+        <p><strong>Quote:</strong> {{ villager.quote }}</p>
+        <p><strong>Phrase:</strong> {{ villager.phrase }}</p>
+      </div>
+      <p><a href="{{ url_for('index') }}">Back to all Villagers</a></p>
+    </div>
+
+  </body>
+</html>
