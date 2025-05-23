@@ -2,22 +2,21 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Animal Crossing Villagers</title>
+    <title>Animal Crossing Sea Creatures</title>
     <!-- Link to your CSS stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
   <body>
     <div class="container">
-      <h1>Animal Crossing Villagers</h1>
+      <h1>Animal Crossing Sea Creatures</h1>
       <div class="card-container">
-        <!-- Loop through each Pokémon and wrap each card in a link -->
-        {% for villager in villagers %}
-        <a href="{{ url_for('villager_detail', id=villager.id) }}" class="card-link">
+        <!-- Loop through each sea creature and wrap each card in a link -->
+        {% for creature in creatures %}
+        <a href="{{ url_for('creature_detail', id=creature.id) }}" class="card-link">
           <div class="card">
-            <img src="{{ villager.image }}" alt="{{ villager.name }}" />
+            <img src="{{ creature.image }}" alt="{{ creature.name }}" />
             <div class="card-body">
-              <h5 class="card-title">{{ villager.name }}</h5>
-              <p class="card-text">ID: {{ villager.id }}</p>
+              <h5 class="card-title">{{ creature.name }}</h5>
             </div>
           </div>
         </a>
