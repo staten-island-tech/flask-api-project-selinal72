@@ -1,7 +1,8 @@
 /* General page styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Nanum Pen Script', cursive;
+    color: #4b88a5;
+    background-color: #bfebff;
     margin: 0;
     padding: 0;
   }
@@ -26,12 +27,9 @@ body {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-  }
-  
-  /* Remove link default styles */
-  .card-link {
-    text-decoration: none;
-    color: inherit;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 15px;
   }
   
   /* Individual card styling */
@@ -75,23 +73,16 @@ body {
   }
   
   /* Pokémon detail page styling */
-  .villager-detail {
+  .creature-detail {
     text-align: center;
   }
   
-  .villager-detail img {
+  .creature-detail img {
     width: 200px;
     height: auto;
     margin-bottom: 20px;
   }
   
-  .villager-detail p {
+  .creature-detail p {
     font-size: 1.1em;
   }
-  
-  /* Chart container styling
-  .pokemon-stats {
-    width: 100%;
-    max-width: 600px;
-    margin: 40px auto;
-  } */

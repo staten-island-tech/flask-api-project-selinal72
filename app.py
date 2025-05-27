@@ -46,12 +46,12 @@ def index():
 @app.route("/creature/<id>")
 def creature_detail(id):
     
-    
     # We get detailed info for a specific Pokémon using its id.
-    response = requests.get(f"https://api.nookipedia.com/nh/sea/{id}")
-    print(response)
+    response = requests.get(f"https://api.nookipedia.com/nh/sea/{id}",  headers = {
+        "X-API-KEY": '94692e6f-677f-4348-85fe-6375ae013248',
+        "Accept-Version": "1.7.0"
+    })
     data = response.json()
-    print(data)
     # We tell Flask to show the 'creature.html' page with all these details.
     return render_template("creature.html", creature=data)
 
