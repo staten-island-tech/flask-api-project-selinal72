@@ -2,27 +2,29 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>{{ creature.name }}'s Details</title>
+    <title>{{ creature.name }} details</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
   <body>
     <div class="container">
-      <h1>{{ creature.name }} Details</h1>
+      <h1>{{ creature.name }} details</h1>
       <div class="creature-detail">
         <img src="{{ creature.render_url }}" alt="{{ creature.name }}" />
         {% for catchphrase in creature.catchphrases %}
-          <h2><strong>Catchphrase:</strong> {{ catchphrase }}</h2>
+          <h2>{{ catchphrase }}</h2>
         {% endfor %}
         <h3><strong>Sell Price:</strong> {{ creature.sell_nook}}</h3>
-        <div class="card">
-          <h5>Shadow Details</h5>
-          <li>{{ creature.shadow_size }}</li>
-          <li>{{ creature.shadow_movement }}</li>
-        </div>
-        <div class="card">
-          <h5>Tank Details</h5>
-          <li>{{ creature.tank_width }}</li>
-          <li>{{ creature.tank_length }}</li>
+        <div class="card-container">
+          <div class="card">
+            <h5>Shadow Details</h5>
+            <li>{{ creature.shadow_size }}</li>
+            <li>{{ creature.shadow_movement }}</li>
+          </div>
+          <div class="card">
+            <h5>Tank Details</h5>
+            <li>{{ creature.tank_width }}</li>
+            <li>{{ creature.tank_length }}</li>
+          </div>
         </div>
       </div>
       <p><a href="{{ url_for('index') }}">Back to all Sea Creatures</a></p>

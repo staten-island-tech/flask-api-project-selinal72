@@ -27,7 +27,6 @@ body {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    background-color: #ffffff;
     padding: 10px;
     border-radius: 15px;
   }
@@ -42,6 +41,7 @@ body {
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    align-items: center;
   }
   
   /* Hover effect for cards */
@@ -64,6 +64,7 @@ body {
   .card-title {
     font-size: 1.2em;
     margin: 0;
+    color: #4b88a5;
   }
   
   /* Card text styling */

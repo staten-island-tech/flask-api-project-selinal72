@@ -17,7 +17,6 @@ def index():
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         creature_list = response.json()
-        print(creature_list)
     except requests.exceptions.HTTPError as e:
         print(f"http error: {e.response.status_code}")
     except requests.exceptions.RequestException as e:
