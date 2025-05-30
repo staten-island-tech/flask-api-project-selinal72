@@ -6,15 +6,21 @@ app = Flask(__name__)
 # Route for the home page
 @app.route("/")
 def index():
+    selected_month = request.args.get("month") # selected month
     url = "https://api.nookipedia.com/nh/sea"
     headers = {
         "X-API-KEY": '94692e6f-677f-4348-85fe-6375ae013248',
         "Accept-Version": "1.7.0"
     }
 
+    params = {} # leave blank first bc dk if person wants to filter yet
+    if selected_month: # if they select a month
+        params['month'] = selected_month # set the value for the key
+
+    
     try:
         # get species data from nookipedia api
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         creature_list = response.json()
     except requests.exceptions.HTTPError as e:
@@ -24,13 +30,8 @@ def index():
     
     # We create a list to store details for each species.
     creatures = []
-
     for creature in creature_list:
         url = creature['url']
-        parts = url.strip("/").split("/")
-        id = parts[-1]  # The last part is the creature's ID
-        
-        # We use the ID to build an image URL.
         image_url = creature['image_url']
         
         creatures.append({
@@ -39,8 +40,11 @@ def index():
             'image': image_url
         })
     
+    months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     # We tell Flask to show the 'index.html' page and pass the list of Pokémon.
-    return render_template("index.html", creatures=creatures)
+    return render_template("index.html", creatures=creatures, months=months, selected_month=selected_month)
+
+
 # Route for the Pokémon details page
 @app.route("/creature/<id>")
 def creature_detail(id):
