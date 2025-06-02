@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
@@ -17,12 +17,14 @@ def index():
     if selected_month: # if they select a month
         params['month'] = selected_month # set the value for the key
 
-    
+    print(selected_month)
     try:
         # get species data from nookipedia api
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         creature_list = response.json()
+        print("DEBUG: Received data type:", type(creature_list))
+        print("DEBUG: Sample item:", creature_list[0] if isinstance(creature_list, list) and creature_list else "Empty or invalid")
     except requests.exceptions.HTTPError as e:
         print(f"http error: {e.response.status_code}")
     except requests.exceptions.RequestException as e:
@@ -32,6 +34,9 @@ def index():
     creatures = []
     for creature in creature_list:
         url = creature['url']
+        parts = url.strip("/").split("/")
+        id = parts[-1] 
+
         image_url = creature['image_url']
         
         creatures.append({
